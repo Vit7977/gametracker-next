@@ -41,7 +41,7 @@ export const loginAction = async (formData: FormData) => {
   } catch (error) {
     return {
       success: false,
-      message: "Erro interno no servidor",
+      message: error || "Erro interno no servidor",
     };
   }
 };

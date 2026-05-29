@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 type InputType = "text" | "password" | "email" | "number" | "date";
@@ -9,18 +9,22 @@ interface InputProps {
   label: string;
   type?: InputType;
   name?: string;
+  placeholder?: string;
   required?: boolean;
   min?: number;
   max?: number;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Input({
   label,
   type = "text",
   name,
+  placeholder,
   required,
   min,
   max,
+  onChange
 }: InputProps) {
   const [active, setActive] = useState(false);
   const [showPass, setShowPass] = useState(false);
@@ -46,9 +50,11 @@ export default function Input({
           name={name}
           min={min}
           max={max}
+          placeholder={placeholder}
           required={required}
           onFocus={() => setActive(true)}
           onBlur={() => setActive(false)}
+          onChange={onChange}
         />
 
         {isPassword && (

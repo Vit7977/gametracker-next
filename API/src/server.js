@@ -4,7 +4,7 @@ import "dotenv/config";
 
 import { routes } from "./routes.js";
 
-const PORT = process.env.API_PORT;
+const PORT = process.env.API_PORT || 3001;
 
 const api = express();
 

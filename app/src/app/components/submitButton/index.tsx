@@ -1,10 +1,12 @@
 export default function SubmitButton({ text }: { text: string }) {
   return (
     <button
-      className="w-full cursor-pointer font-medium bg-zinc-300 p-2 rounded-lg border border-zinc-400 shadow-indigo-600/50 transition-all duration-300 
-        hover:shadow-md hover:border-indigo-600
-        active:shadow-none active:bg-zinc-400 active:text-zinc-500 active:scale-90"
       type="submit"
+      className="w-full cursor-pointer font-semibold text-sm text-white bg-indigo-600 hover:bg-indigo-500
+        py-2.5 rounded-lg border border-indigo-500/50
+        transition-all duration-200
+        hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]
+        active:scale-95 active:bg-indigo-700"
     >
       {text}
     </button>

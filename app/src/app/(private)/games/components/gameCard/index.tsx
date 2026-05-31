@@ -1,37 +1,54 @@
 "use client";
+
 import ImgNotFound from "../../../../../assets/Image-not-found.png";
 import { useState } from "react";
 import type { Game } from "@/src/types/Game";
+import { useRouter } from "next/navigation";
 
 interface GameProps {
   game: Game;
 }
 
 export default function GameCard({ game }: GameProps) {
-  const [visibleInfo, setVisibleInfo] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const router = useRouter();
 
   return (
     <div
-      className="relative max-w-64 rounded-lg overflow-hidden shadow-lg border transition-all duration-300 hover:scale-105 hover:shadow-indigo-700 cursor-pointer"
-      onMouseEnter={() => setVisibleInfo(true)}
-      onMouseLeave={() => setVisibleInfo(false)}
+      className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105"
+      style={{
+        boxShadow: hovered
+          ? "0 0 0 1px rgba(99,102,241,0.5), 0 8px 32px rgba(99,102,241,0.2)"
+          : "0 0 0 1px rgba(255,255,255,0.06)",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={() => router.push(`/games/details?id=${game.id}`)}
     >
       <img
-        className="w-full object-cover aspect-[3/4]"
+        className="w-full object-cover aspect-[3/4] transition-transform duration-500"
+        style={{ transform: hovered ? "scale(1.05)" : "scale(1)" }}
         src={!game.capa ? ImgNotFound.src : game.capa}
         alt={game.titulo}
       />
 
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b14]/90 via-transparent to-transparent" />
+
       <div
-        className="absolute -bottom-0.5 left-0 right-0 bg-indigo-950/60 backdrop-blur-sm text-white text-center transition-all duration-300 px-2 py-2"
+        className="absolute bottom-0 left-0 right-0 px-3 py-3 transition-all duration-300"
         style={{
-          opacity: visibleInfo ? 1 : 0,
-          transform: visibleInfo ? "translateY(0)" : "translateY(100%)",
+          opacity: hovered ? 1 : 0,
+          transform: hovered ? "translateY(0)" : "translateY(6px)",
         }}
       >
-        <p className="font-medium text-[15px] leading-tight">{game.titulo}</p>
-        <p className="text-[12px] text-gray-300 mt-1">
-          {new Date(game.data_lancamento).toLocaleDateString("pt-BR")}
+        <p className="font-semibold text-[14px] text-white leading-tight truncate">
+          {game.titulo}
+        </p>
+        <p className="text-[11px] text-indigo-300 mt-0.5 tracking-wide">
+          {new Date(game.data_lancamento).toLocaleDateString("pt-BR", {
+            year: "numeric",
+            month: "short",
+          })}
         </p>
       </div>
     </div>

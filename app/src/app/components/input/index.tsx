@@ -24,7 +24,7 @@ export default function Input({
   required,
   min,
   max,
-  onChange
+  onChange,
 }: InputProps) {
   const [active, setActive] = useState(false);
   const [showPass, setShowPass] = useState(false);
@@ -33,19 +33,24 @@ export default function Input({
   const resolvedType = isPassword && showPass ? "text" : type;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-1">
       <label
-        className={`${
-          active ? "text-indigo-600" : "text-indigo-400"
-        } pl-1 font-medium transition-all duration-300`}
+        className={`text-xs font-semibold tracking-widest uppercase pl-1 transition-colors duration-200 ${
+          active ? "text-indigo-400" : "text-zinc-500"
+        }`}
       >
         {label}
       </label>
 
-      <div className="relative w-full" >
+      <div className="relative w-full">
         <input
-          className={`w-full outline-none border-2 border-indigo-300 bg-zinc-300 text-zinc-400 rounded-lg pl-2 p-1.5 pr-10 transition-all duration-300
-          focus:border-indigo-600 focus:bg-zinc-200 focus:text-black focus:shadow-md`}
+          className={`w-full bg-white/5 border rounded-lg pl-3 pr-10 py-2 text-sm text-white placeholder-zinc-600
+            outline-none transition-all duration-200
+            ${
+              active
+                ? "border-indigo-500/70 bg-white/8 shadow-[0_0_0_3px_rgba(99,102,241,0.1)]"
+                : "border-white/10 hover:border-white/20"
+            }`}
           type={resolvedType}
           name={name}
           min={min}
@@ -55,18 +60,12 @@ export default function Input({
           onFocus={() => setActive(true)}
           onBlur={() => setActive(false)}
           onChange={onChange}
-          
         />
 
         {isPassword && (
           <button
             type="button"
-            className={`absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300
-            ${
-              active
-                ? "text-black hover:text-indigo-700"
-                : "text-zinc-400 hover:text-indigo-300"
-            }`}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-indigo-400 transition-colors duration-200 cursor-pointer"
             onClick={() => setShowPass((prev) => !prev)}
           >
             {showPass ? <FaEyeSlash /> : <FaEye />}

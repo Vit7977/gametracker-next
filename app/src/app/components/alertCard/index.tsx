@@ -11,14 +11,22 @@ export default function AlertCard({ error, message, visibility }: AlertProps) {
   return (
     <div
       className={`
-        ${visibility ? "opacity-100" : "opacity-0"} 
-        ${error ? "bg-red-500 border-red-700 text-red-950" : "bg-green-500 border-green-700 text-lime-700"} 
-        border-2 p-2 min-w-26 rounded-lg absolute top-20 right-10`}
+        fixed top-20 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-xl
+        border backdrop-blur-sm text-sm font-medium
+        transition-all duration-300
+        ${visibility ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"}
+        ${
+          error
+            ? "bg-red-500/10 border-red-500/30 text-red-400"
+            : "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+        }
+      `}
     >
-      <div className="flex items-center justify-start gap-2 pl-2 pr-2">
-        {error ? <MdError /> : <MdCheck />}
-        <p className="font-medium text-md">{message}</p>
-      </div>
+      {error
+        ? <MdError className="text-lg shrink-0" />
+        : <MdCheck className="text-lg shrink-0" />
+      }
+      <p>{message}</p>
     </div>
   );
 }

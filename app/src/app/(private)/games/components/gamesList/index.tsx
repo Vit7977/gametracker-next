@@ -7,10 +7,34 @@ export default async function GamesList() {
   const games = result.success && result.data ? result.data : [];
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 px-20 pt-5">
-      {games.map((item: Game) => (
-        <GameCard key={item.id} game={item} />
-      ))}
+    <div className="min-h-screen bg-[#0b0b14] px-8 pt-5 pb-12">
+
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-700/10 rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative z-10 mb-8">
+        <h2 className="text-2xl font-black tracking-tight text-white">
+          Jogos disponíveis
+        </h2>
+        <p className="text-sm text-zinc-500 mt-1">
+          {games.length} {games.length === 1 ? "jogo encontrado" : "jogos encontrados"}
+        </p>
+        <div className="mt-4 h-px bg-gradient-to-r from-indigo-700/60 via-indigo-500/20 to-transparent" />
+      </div>
+
+      <div className="relative z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        {games.map((item: Game) => (
+          <GameCard key={item.id} game={item} />
+        ))}
+      </div>
+
+      {games.length === 0 && (
+        <div className="relative z-10 flex flex-col items-center justify-center py-32 gap-3 text-zinc-600">
+          <span className="text-5xl">🎮</span>
+          <p className="text-sm">Nenhum jogo encontrado</p>
+        </div>
+      )}
     </div>
   );
 }

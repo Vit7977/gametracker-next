@@ -1,22 +1,20 @@
 export default function GenerosContainer({ generos }: { generos: string }) {
-   const genero: string[] = generos.split(", ");
+  const generoList: string[] = generos.split(", ");
+
+  if (!generos.trim()) return null;
 
   return (
-    <div className="flex gap-2 max-w-full flex-wrap min-w-0">
-      {generos.trim() ? (
-        genero.map((g, i) => {
-          return (
-            <div
-              className="bg-indigo-700 rounded-3xl border border-indigo-500"
-              key={i}
-            >
-              <p className="p-2 text-[12px] font-medium text-white wrap-break-word">{g}</p>
-            </div>
-          );
-        })
-      ) : (
-        <div></div>
-      )}
+    <div className="flex gap-2 flex-wrap min-w-0">
+      {generoList.map((g, i) => (
+        <span
+          key={i}
+          className="bg-indigo-600/15 border border-indigo-500/30 text-indigo-300
+            text-[11px] font-semibold tracking-wide uppercase
+            px-2.5 py-1 rounded-full"
+        >
+          {g}
+        </span>
+      ))}
     </div>
   );
 }

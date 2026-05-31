@@ -38,27 +38,50 @@ export default function Cadastrar() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center">
+    <div className="min-h-screen bg-[#0b0b14] flex flex-col justify-center items-center px-4">
+
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-700/10 rounded-full blur-3xl" />
+      </div>
+
       <AlertCard
         message={alert.message}
         error={alert.error}
         visibility={alert.visibility}
       />
-      <div className="bg-white p-4 rounded-lg min-w-96 shadow-md shadow-indigo-400 border-2 border-indigo-400">
-        <h1 className="text-center text-2xl font-medium pb-3">CADASTRO</h1>
-        <form action={handleSubmit} className="flex flex-col gap-4">
-          <Input label="Nome" type="text" name="nome" required />
-          <Input label="Email" type="email" name="email" required />
-          <Input label="Senha" type="password" name="senha" min={6} required />
-          <SubmitButton text="Cadastrar" />
-        </form>
-        <div className="text-center pt-2">
-          <p>
-            Já possui uma conta?{" "}
-            <Link className="text-blue-600 hover:underline" href="/login">
-              Faça seu login
-            </Link>
+
+      <div className="relative z-10 w-full max-w-sm">
+
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-black tracking-tight text-white">
+            Criar conta
+          </h1>
+          <p className="text-zinc-500 text-sm mt-2">
+            Preencha os dados para se cadastrar
           </p>
+        </div>
+
+        <div className="bg-white/5 border border-white/8 rounded-2xl p-6 backdrop-blur-sm">
+          <form action={handleSubmit} className="flex flex-col gap-4">
+            <Input label="Nome" type="text" name="nome" required />
+            <Input label="Email" type="email" name="email" required />
+            <Input label="Senha" type="password" name="senha" min={6} required />
+            <div className="pt-1">
+              <SubmitButton text="Cadastrar" />
+            </div>
+          </form>
+
+          <div className="mt-5 pt-5 border-t border-white/8 text-center">
+            <p className="text-sm text-zinc-500">
+              Já possui uma conta?{" "}
+              <Link
+                href="/login"
+                className="text-indigo-400 hover:text-indigo-300 transition-colors font-medium"
+              >
+                Faça seu login
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

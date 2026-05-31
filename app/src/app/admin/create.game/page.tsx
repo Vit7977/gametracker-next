@@ -7,6 +7,7 @@ import AlertCard from "../../components/alertCard"
 import GenerosContainer from "../../components/generosContainer"
 
 export default function CreateGame() {
+    const [generos, setGeneros] = useState("");
 
     const [alert, setAlert] = useState({
         message: "",
@@ -14,23 +15,27 @@ export default function CreateGame() {
         visibility: false,
     });
 
-    const handleSubmit = async(formData: FormData) => { 
-        const response = await createGameAction(formData);
+    const handleSubmit = async (formData: FormData) => {
+    const response = await createGameAction(formData);
 
-        if (!response.success){
-            return setAlert({
-                message: response.message,
-                error: true,
-                visibility: true,
-            })
-        }
-
-        setAlert({
-            message: response.message,
-            error: false,
+    if (!response.success) {
+        return setAlert({
+            message: response.message ?? "Ocorreu um erro inesperado.",
+            error: true,
             visibility: true,
         });
     }
+
+    setAlert({
+        message: response.message ?? "Cadastrado com sucesso!", 
+        error: false,
+        visibility: true,
+    });
+
+    setTimeout(()=>{
+        window.location.reload();
+    }, 2000)
+};
 
     const [img, setImg] = useState<string>("")
 
@@ -43,7 +48,7 @@ export default function CreateGame() {
                 visibility={alert.visibility}
             />
 
-            <div className="bg-white p-4 rounded-lg min-w-98 shadow-md shadow-indigo-400 border-2 border-indigo-400">
+           <div className="bg-white p-4 rounded-lg min-w-98 max-w-98 shadow-md shadow-indigo-400 border-2 border-indigo-400">
 
                 <h1 className="text-center text-2xl font-medium pb-3">
                     ADICIONAR JOGO
@@ -81,13 +86,22 @@ export default function CreateGame() {
                     />
 
                     <Input
+                        label="Tempo Estimado (100%)"
+                        type="number"
+                        name="tempo_estimado"
+                        required
+                    />
+
+                    <Input
                         label="Generos"
                         type="text"
                         name="genero"
                         placeholder="Separe cada genero com ', '"
+                        onChange={(e)=>setGeneros(e.target.value)}
                         required
                     />
-                    <GenerosContainer generos={"Ação e Aventura, Tiro"}/>
+                    <GenerosContainer generos={generos}/>
+
 
                     <SubmitButton text="Adicionar" />
                 </form>

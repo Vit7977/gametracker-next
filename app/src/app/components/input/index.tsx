@@ -55,6 +55,7 @@ export default function Input({
           onFocus={() => setActive(true)}
           onBlur={() => setActive(false)}
           onChange={onChange}
+          
         />
 
         {isPassword && (

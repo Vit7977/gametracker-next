@@ -7,11 +7,7 @@ export default async function GamesList() {
   const games = result.success && result.data ? result.data : [];
 
   return (
-    <div className="min-h-screen bg-[#0b0b14] px-8 pt-5 pb-12">
-
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-700/10 rounded-full blur-3xl" />
-      </div>
+    <div className="min-h-screen px-8 pt-5 pb-12">
 
       <div className="relative z-10 mb-8">
         <h2 className="text-2xl font-black tracking-tight text-white">

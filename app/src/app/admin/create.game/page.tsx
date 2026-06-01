@@ -6,10 +6,14 @@ import { createGameAction } from "./actions/createGame";
 import { getPlatformsAction } from "./actions/getPlatforms";
 import AlertCard from "../../components/alertCard";
 import GenerosContainer from "../../components/generosContainer";
+import BtnPlatform from "./components/btnPlatform";
+import { createGamePlatformAction } from "./actions/createGamePlatform";
+import { getLastGameAction } from "./actions/getLastGame";
 
 export default function CreateGame() {
   const [generos, setGeneros] = useState("");
   const [platforms, setPlatforms] = useState<any[]>([]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState<number[]>([]);
   const [img, setImg] = useState<string>("");
   const [alert, setAlert] = useState({
     message: "",
@@ -17,47 +21,73 @@ export default function CreateGame() {
     visibility: false,
   });
 
-  const handleSubmit = async (formData: FormData) => {
-    const response = await createGameAction(formData);
+  const togglePlatform = (id: number) => {
+    setSelectedPlatforms((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id],
+    );
+  };
 
-    if (!response.success) {
+  const handleSubmit = async (formData: FormData) => {
+  const response = await createGameAction(formData);
+
+  if (!response.success) {
+    return setAlert({
+      message: response.message ?? "Ocorreu um erro inesperado.",
+      error: true,
+      visibility: true,
+    });
+  }
+
+  const game = await getLastGameAction();
+
+  if (!game.success || !game.data?.id) {
+    return setAlert({
+      message: "Erro ao obter o jogo criado.",
+      error: true,
+      visibility: true,
+    });
+  }
+
+  if (selectedPlatforms.length > 0) {
+    const responseGamePlatform = await createGamePlatformAction(
+      selectedPlatforms,
+      game.data.id,
+    );
+
+    if (!responseGamePlatform.success) {
       return setAlert({
-        message: response.message ?? "Ocorreu um erro inesperado.",
+        message: responseGamePlatform.message ?? "Erro ao vincular plataformas.",
         error: true,
         visibility: true,
       });
     }
-
-    setAlert({
-      message: response.message ?? "Cadastrado com sucesso!",
-      error: false,
-      visibility: true,
-    });
-
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
-  };
-
-  useEffect(() => {
-  async function loadPlatforms() {
-    const response = await getPlatformsAction();
-
-    if (response.success) {
-      setPlatforms(response.data);
-    }
   }
 
-  loadPlatforms();
-}, []);
+  setAlert({
+    message: response.message ?? "Cadastrado com sucesso!",
+    error: false,
+    visibility: true,
+  });
+
+  setTimeout(() => {
+    window.location.reload();
+  }, 2000);
+};
+
+  useEffect(() => {
+    async function loadPlatforms() {
+      const response = await getPlatformsAction();
+
+      if (response.success) {
+        setPlatforms(response.data);
+      }
+    }
+
+    loadPlatforms();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-[#0b0b14] flex justify-center items-center gap-8 p-6 pt-24">
-
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-700/10 rounded-full blur-3xl" />
-      </div>
-
+    <div className="min-h-screen flex justify-center items-center gap-8 p-6 pt-24">
       <AlertCard
         message={alert.message}
         error={alert.error}
@@ -65,7 +95,6 @@ export default function CreateGame() {
       />
 
       <div className="relative z-10 bg-white/5 border border-white/8 rounded-2xl p-6 w-full max-w-sm backdrop-blur-sm">
-
         <div className="mb-6">
           <h1 className="text-2xl font-black tracking-tight text-white">
             Adicionar Jogo
@@ -116,15 +145,16 @@ export default function CreateGame() {
           <GenerosContainer generos={generos} />
 
           <div className="flex justify-center gap-2 max-h-10 w-full">
-          {
-            platforms.map((item)=> {
+            {platforms.map((item) => {
               return (
-                <button className="bg-white rounded-full border border-indigo-600 transition-all duration-300 hover:bg-indigo-100 hover:border-indigo-800">
-                  <img className="w-10 h-full p-2 object-contain" src={item.logo} alt="" />
-                </button>
-              )
-            })
-          }
+                <BtnPlatform
+                  key={item.id}
+                  platform={item}
+                  selected={selectedPlatforms.includes(item.id)}
+                  onToggle={togglePlatform}
+                />
+              );
+            })}
           </div>
 
           <div className="pt-1">
@@ -134,9 +164,10 @@ export default function CreateGame() {
       </div>
 
       <div className="relative z-10 bg-white/5 border border-white/8 rounded-2xl p-6 w-64 backdrop-blur-sm self-start mt-0">
-
         <div className="mb-4">
-          <h2 className="text-base font-semibold text-white">Preview da Capa</h2>
+          <h2 className="text-base font-semibold text-white">
+            Preview da Capa
+          </h2>
           <p className="text-zinc-500 text-xs mt-0.5">Atualiza em tempo real</p>
         </div>
 
@@ -154,7 +185,6 @@ export default function CreateGame() {
           )}
         </div>
       </div>
-
     </div>
   );
 }

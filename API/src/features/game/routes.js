@@ -6,6 +6,7 @@ import GameController from "./controller.js";
 const router = Router();
 
 router.get("/", GameController.getAll);
+router.get("/last", GameController.getLast);
 router.get("/:id", validate(idDTO, "params"), GameController.getById);
 
 router.post("/", validate(createGameDTO), GameController.create);

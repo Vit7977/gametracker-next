@@ -56,13 +56,14 @@ export default function GameCard({ game }: GameProps) {
       </div>
         
       <button
-  className="absolute top-3 right-3 flex items-center rounded-full bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-500 transition-all duration-300"
-  onClick={(e) => {
-    e.stopPropagation();
-  }}
-  onMouseEnter={() => setBtnHovered(true)}
-  onMouseLeave={() => setBtnHovered(false)}
->
+  className="absolute top-3 right-3 flex items-center rounded-full bg-indigo-700/50 px-3 py-2 text-white hover:bg-indigo-600 transition-all duration-300"
+    onClick={(e) => {
+      e.stopPropagation();
+      
+    }}
+    onMouseEnter={() => setBtnHovered(true)}
+    onMouseLeave={() => setBtnHovered(false)}
+  >
   <BiPlus
     size={18}
     className={`transition-transform duration-500 ${

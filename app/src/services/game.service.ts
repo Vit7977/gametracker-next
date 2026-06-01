@@ -7,6 +7,12 @@ export const fetchAllGames = async () => {
   });
 };
 
+export const fetchLastGame = async () => {
+  return api("/game/last", {
+    method: "GET",
+  });
+};
+
 export const fetchById = async (id: string) => {
   return api(`/game/${id}`, {
     method: "GET",

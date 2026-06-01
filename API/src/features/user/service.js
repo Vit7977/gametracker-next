@@ -40,7 +40,7 @@ const UserService = {
       },
     );
 
-    return { token };
+    return { token, user: user.id };
   },
 
   async delete(id) {

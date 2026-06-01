@@ -46,6 +46,10 @@ const GameRepository = {
     const [game] = await pool.execute(`SELECT * FROM game WHERE id=?`, [id]);
     return game[0];
   },
+  async getLast() {
+    const [game] = await pool.execute(`SELECT * FROM game ORDER BY id DESC LIMIT 1;`);
+    return game[0];
+  },
 };
 
 export default GameRepository;

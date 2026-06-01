@@ -18,6 +18,9 @@ const GameService = {
   async getById(id) {
     return await GameRepository.getById(id);
   },
+  async getLast() {
+    return await GameRepository.getLast();
+  },
 };
 
 export default GameService;

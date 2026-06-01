@@ -92,6 +92,26 @@ const GameController = {
       });
     }
   },
+
+  async getLast(req, res) {
+    try {
+      const data = await GameService.getLast();
+
+      if (!data) {
+        return response.notFound(res, { message: "Jogo não encontrado!" });
+      }
+
+      return response.success(res, {
+        message: "Jogo consultado com sucesso!",
+        data,
+      });
+    } catch (error) {
+      return response.error(res, {
+        message: "Erro interno!",
+        error: error.message,
+      });
+    }
+  },
 };
 
 export default GameController;

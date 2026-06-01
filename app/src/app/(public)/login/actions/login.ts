@@ -23,6 +23,7 @@ export const loginAction = async (formData: FormData) => {
     }
 
     const token = result.data.token;
+    const userId = result.data.user;
 
     const cookieStore = await cookies();
 
@@ -33,6 +34,14 @@ export const loginAction = async (formData: FormData) => {
       maxAge: 60 * 60 * 24,
       path: "/",
     });
+
+     cookieStore.set("user", userId, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+    });
+
 
     return {
       success: true,

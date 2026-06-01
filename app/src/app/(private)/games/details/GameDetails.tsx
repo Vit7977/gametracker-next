@@ -16,11 +16,7 @@ export default function GameDetails({ game }: Props) {
     : "";
 
   return (
-    <div className="bg-[#0b0b14] text-white">
-
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-700/10 rounded-full blur-3xl" />
-      </div>
+    <div className="text-white">
 
       <div className="relative z-10 px-8 pt-2">
         <button

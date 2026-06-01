@@ -14,8 +14,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-zinc-800">
+      <body className="min-h-screen bg-[#0b0b14]">
         <NavBar />
+        <div className="pointer-events-none fixed inset-0 overflow-hidden">
+          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-700/10 rounded-full blur-3xl" />
+        </div>
         <main className="pt-16">{children}</main>
       </body>
     </html>

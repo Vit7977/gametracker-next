@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaHome } from "react-icons/fa";
-import { IoGameController, IoPersonCircle } from "react-icons/io5";
+import { IoGameController, IoLibrary, IoPersonCircle } from "react-icons/io5";
 
 const links = [
   { href: "/", label: "Home", icon: FaHome },
   { href: "/games", label: "Jogos", icon: IoGameController },
-  { href: "/perfil", label: "Perfil", icon: IoPersonCircle },
+  { href: "/library", label: "Sua Biblioteca", icon: IoLibrary},
+  { href: "/profile", label: "Perfil", icon: IoPersonCircle },
 ];
 
 export default function NavBar() {

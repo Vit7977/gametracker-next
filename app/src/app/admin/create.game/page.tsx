@@ -1,13 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../../components/input";
 import SubmitButton from "../../components/submitButton";
 import { createGameAction } from "./actions/createGame";
+import { getPlatformsAction } from "./actions/getPlatforms";
 import AlertCard from "../../components/alertCard";
 import GenerosContainer from "../../components/generosContainer";
 
 export default function CreateGame() {
   const [generos, setGeneros] = useState("");
+  const [platforms, setPlatforms] = useState<any[]>([]);
   const [img, setImg] = useState<string>("");
   const [alert, setAlert] = useState({
     message: "",
@@ -36,6 +38,18 @@ export default function CreateGame() {
       window.location.reload();
     }, 2000);
   };
+
+  useEffect(() => {
+  async function loadPlatforms() {
+    const response = await getPlatformsAction();
+
+    if (response.success) {
+      setPlatforms(response.data);
+    }
+  }
+
+  loadPlatforms();
+}, []);
 
   return (
     <div className="min-h-screen bg-[#0b0b14] flex justify-center items-center gap-8 p-6 pt-24">
@@ -100,6 +114,18 @@ export default function CreateGame() {
           />
 
           <GenerosContainer generos={generos} />
+
+          <div className="flex justify-center gap-2 max-h-10 w-full">
+          {
+            platforms.map((item)=> {
+              return (
+                <button className="bg-white rounded-full border border-indigo-600 transition-all duration-300 hover:bg-indigo-100 hover:border-indigo-800">
+                  <img className="w-10 h-full p-2 object-contain" src={item.logo} alt="" />
+                </button>
+              )
+            })
+          }
+          </div>
 
           <div className="pt-1">
             <SubmitButton text="Adicionar" />
